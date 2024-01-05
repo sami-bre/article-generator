@@ -6,7 +6,7 @@ import { FaSun } from "react-icons/fa";
 import { FaMoon } from "react-icons/fa";
 
 
-const TitleInput = ({ value, onChange }) => {
+const TitleInput = ({ value, onChange, isDark, switchTheme }) => {
   return (
     <div className="flex justify-center">
       <div class="flex items-center m-8 w-2/3 px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700">
@@ -88,6 +88,7 @@ const TitleInput = ({ value, onChange }) => {
           <span class="sr-only">Send message</span>
         </button>
       </div>
+      <button type="button" className="" onClick={switchTheme}>{isDark ? <FaSun color="#2b2b2b" size={20} /> : <FaMoon color="#2b2b2b" size={20} />}</button>
     </div>
   );
 };
@@ -206,7 +207,7 @@ const App = () => {
     <div className="h-screen flex flex-col">
       <h1 className="text-center mt-4 mb-4">Article Generator</h1>
       <form onSubmit={handleSubmit} className="h-screen flex flex-col">
-        <TitleInput value={title} onChange={(e) => setTitle(e.target.value)} />
+        <TitleInput value={title} onChange={(e) => setTitle(e.target.value)} isDark={isDark} switchTheme={switchTheme} />
         <div className="flex flex-row justify-center h-full">
           {loading ? (
             <LoadingIndicator />
@@ -221,7 +222,7 @@ const App = () => {
           />
         </div>
       </form>
-      <button onClick={switchTheme}>{isDark ? <FaSun /> : <FaMoon />}</button>
+      
     </div>
   );
 };
