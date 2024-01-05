@@ -5,7 +5,6 @@ import "./App.css";
 import { FaSun } from "react-icons/fa";
 import { FaMoon } from "react-icons/fa";
 
-
 const TitleInput = ({ value, onChange, isDark, switchTheme }) => {
   return (
     <div className="flex justify-center">
@@ -173,12 +172,32 @@ const LoadingIndicator = () => {
   );
 };
 
+const Sidebar = ({ recentArticles }) => {
+  return (
+    <div className="h-full bg-gray-300 dark:bg-gray-800 p-4">
+      <h2 className="text-lg font-semibold mb-4 dark:text-gray-300">
+        Recent Articles
+      </h2>
+      <ul>
+        {recentArticles.map((article, index) => (
+          <li key={index} className="mb-2 dark:text-gray-400">
+            <span className="cursor-pointer hover:underline">
+              {article.title}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
 const App = () => {
   const [title, setTitle] = useState("");
   const [prompt, setPrompt] = useState("");
   const [article, setArticle] = useState("");
   const [loading, setLoading] = useState(false);
   const [isDark, setIsDark] = useState(false);
+  const [recentArticles, setRecentArticles] = useState([]);
 
   // let's conditionally add the "dark" class to the root element
   useEffect(() => {
@@ -220,6 +239,10 @@ const App = () => {
       setLoading(false);
       const generatedSummary = `Summary for: ${title}`;
       setArticle(generatedSummary);
+      setRecentArticles((prevArticles) => [
+        { title: title, summary: generatedSummary },
+        ...prevArticles,
+      ]);
     }, 3000);
   };
 
@@ -233,11 +256,12 @@ const App = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col dark:bg-slate-950">
-      <h1 className="text-center mt-4 mb-4 dark:text-gray-300">
-        Article Generator
-      </h1>
-      <form onSubmit={handleSubmit} className="h-screen flex flex-col">
+    <div className="h-screen flex flex-row dark:bg-slate-950">
+      <Sidebar recentArticles={recentArticles} />
+      <form onSubmit={handleSubmit} className="flex flex-col flex-grow">
+        <h1 className="text-center mt-4 mb-4 dark:text-gray-300">
+          Article Generator
+        </h1>
         <TitleInput
           value={title}
           onChange={(e) => setTitle(e.target.value)}
