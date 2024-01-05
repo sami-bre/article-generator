@@ -108,7 +108,7 @@ const PromptArea = ({ value, onChange }) => {
         id="message"
         rows="4"
         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        placeholder="Write your thoughts here..."
+        placeholder="Additional details ..."
       ></textarea>
     </div>
   );
@@ -116,7 +116,7 @@ const PromptArea = ({ value, onChange }) => {
 
 const GeneratedArticle = ({ article }) => {
   return (
-    <div className="w-2/3">
+    <div className="w-1/2 text-center rounded-lg bg-gray-200 dark:bg-gray-800 m-6 text-gray-800 dark:text-gray-300 py-10 px-4 flex flex-col justify-center">
       <h2>Generated Summary:</h2>
       <p>{article}</p>
     </div>
@@ -125,19 +125,15 @@ const GeneratedArticle = ({ article }) => {
 
 const InstructionsView = () => {
   return (
-    <div className="w-1/2 text-center rounded-lg bg-green-100 m-6">
-      <h2>Instructions:</h2>
-      <p>
-        Enter a title and some details, and click "Generate Summary" to generate
-        a summary for your article.
-      </p>
+    <div className="w-1/2 text-center rounded-lg bg-gray-200 dark:bg-gray-800 m-6 text-gray-800 dark:text-gray-300 py-10 px-4 flex flex-col justify-center">
+      <h2 className="text-4xl my-8">Enter title to generate article</h2>
     </div>
   );
 };
 
 const LoadingIndicator = () => {
   return (
-    <div className="w-1/3">
+    <div className="w-1/2 text-center rounded-lg bg-gray-200 dark:bg-gray-800 m-6 text-gray-800 dark:text-gray-300 py-10 px-4 flex flex-col justify-center">
       <img src={logo} className="App-logo" alt="logo" />
       <p>Generating summary...</p>
     </div>
@@ -204,8 +200,8 @@ const App = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col">
-      <h1 className="text-center mt-4 mb-4">Article Generator</h1>
+    <div className="h-screen flex flex-col dark:bg-slate-950">
+      <h1 className="text-center mt-4 mb-4 dark:text-gray-300">Article Generator</h1>
       <form onSubmit={handleSubmit} className="h-screen flex flex-col">
         <TitleInput value={title} onChange={(e) => setTitle(e.target.value)} isDark={isDark} switchTheme={switchTheme} />
         <div className="flex flex-row justify-center h-full">
