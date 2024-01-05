@@ -7,6 +7,7 @@ import { GeneratedArticle } from "./GeneratedArticle";
 import { InstructionsView } from "./InstructionsView";
 import { LoadingIndicator } from "./LoadingIndicator";
 import { Sidebar } from "./Sidebar";
+import { article as dummyArticle } from "./dummy-data";
 
 const App = () => {
   const [title, setTitle] = useState("");
@@ -54,7 +55,7 @@ const App = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      const generatedSummary = `Summary for: ${title}`;
+      const generatedSummary = dummyArticle;
       setArticle(generatedSummary);
       setRecentArticles((prevArticles) => [
         { title: title, summary: generatedSummary },
