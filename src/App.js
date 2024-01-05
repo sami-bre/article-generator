@@ -88,7 +88,13 @@ const TitleInput = ({ value, onChange, isDark, switchTheme }) => {
           <span class="sr-only">Send message</span>
         </button>
       </div>
-      <button type="button" className="" onClick={switchTheme}>{isDark ? <FaSun color="#F7F7FF" size={20} /> : <FaMoon color="#2b2b2b" size={20} />}</button>
+      <button type="button" className="" onClick={switchTheme}>
+        {isDark ? (
+          <FaSun color="#F7F7FF" size={20} />
+        ) : (
+          <FaMoon color="#2b2b2b" size={20} />
+        )}
+      </button>
     </div>
   );
 };
@@ -116,7 +122,7 @@ const PromptArea = ({ value, onChange }) => {
 
 const GeneratedArticle = ({ article }) => {
   return (
-    <div className="w-1/2 text-center rounded-lg bg-gray-200 dark:bg-gray-800 m-6 text-gray-800 dark:text-gray-300 py-10 px-4 flex flex-col justify-center">
+    <div className="w-1/2 text-center rounded-lg bg-gray-50 dark:bg-gray-950 m-6 text-gray-800 dark:text-gray-300 py-10 px-4 flex flex-col">
       <h2>Generated Summary:</h2>
       <p>{article}</p>
     </div>
@@ -125,7 +131,7 @@ const GeneratedArticle = ({ article }) => {
 
 const InstructionsView = () => {
   return (
-    <div className="w-1/2 text-center rounded-lg bg-gray-200 dark:bg-gray-800 m-6 text-gray-800 dark:text-gray-300 py-10 px-4 flex flex-col justify-center">
+    <div className="w-1/2 text-center rounded-lg bg-gray-50 dark:bg-gray-950 m-6 text-gray-800 dark:text-gray-300 py-10 px-4 flex flex-col">
       <h2 className="text-4xl my-8">Enter title to generate article</h2>
     </div>
   );
@@ -133,9 +139,36 @@ const InstructionsView = () => {
 
 const LoadingIndicator = () => {
   return (
-    <div className="w-1/2 text-center rounded-lg bg-gray-200 dark:bg-gray-800 m-6 text-gray-800 dark:text-gray-300 py-10 px-4 flex flex-col justify-center">
-      <img src={logo} className="App-logo" alt="logo" />
-      <p>Generating summary...</p>
+    <div className="w-1/2 text-center rounded-lg bg-gray-50 dark:bg-gray-950 m-6 text-gray-800 dark:text-gray-300 py-10 px-4 flex flex-col">
+      <div role="status" class="max-w-3xl animate-pulse flex flex-col">
+        <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-1/2 mb-4"></div>
+        <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-1/4 mb-16"></div>
+
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-1/2 mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-3/4 mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-5/6 mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-5/6 mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-1/6 mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-3/4 mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-4/5 mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-5/6 mb-8"></div>
+
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-1/2 mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-3/4 mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-5/6 mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-5/6 mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-1/6 mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-3/4 mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-4/5 mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-5/6 mb-2.5"></div>
+        <span class="sr-only">Loading...</span>
+      </div>
     </div>
   );
 };
@@ -201,9 +234,16 @@ const App = () => {
 
   return (
     <div className="h-screen flex flex-col dark:bg-slate-950">
-      <h1 className="text-center mt-4 mb-4 dark:text-gray-300">Article Generator</h1>
+      <h1 className="text-center mt-4 mb-4 dark:text-gray-300">
+        Article Generator
+      </h1>
       <form onSubmit={handleSubmit} className="h-screen flex flex-col">
-        <TitleInput value={title} onChange={(e) => setTitle(e.target.value)} isDark={isDark} switchTheme={switchTheme} />
+        <TitleInput
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          isDark={isDark}
+          switchTheme={switchTheme}
+        />
         <div className="flex flex-row justify-center h-full">
           {loading ? (
             <LoadingIndicator />
@@ -218,7 +258,6 @@ const App = () => {
           />
         </div>
       </form>
-      
     </div>
   );
 };
