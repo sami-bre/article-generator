@@ -76,7 +76,7 @@ const App = () => {
   return (
     <div className="h-screen flex flex-row dark:bg-slate-950">
       <Sidebar recentArticles={recentArticles} />
-      <form onSubmit={handleSubmit} className="flex flex-col flex-grow">
+      <form onSubmit={handleSubmit} className="flex flex-col flex-grow w-3/4">
         <h1 className="text-center mt-4 mb-4 dark:text-gray-300">
           Article Generator
         </h1>

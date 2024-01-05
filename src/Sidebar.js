@@ -1,5 +1,3 @@
-import React from "react";
-
 export const Sidebar = ({ recentArticles }) => {
   return (
     <div className="h-full bg-gray-300 dark:bg-gray-800 p-4 w-64">
