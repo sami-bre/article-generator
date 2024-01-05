@@ -88,7 +88,7 @@ const TitleInput = ({ value, onChange, isDark, switchTheme }) => {
           <span class="sr-only">Send message</span>
         </button>
       </div>
-      <button type="button" className="" onClick={switchTheme}>{isDark ? <FaSun color="#2b2b2b" size={20} /> : <FaMoon color="#2b2b2b" size={20} />}</button>
+      <button type="button" className="" onClick={switchTheme}>{isDark ? <FaSun color="#F7F7FF" size={20} /> : <FaMoon color="#2b2b2b" size={20} />}</button>
     </div>
   );
 };
