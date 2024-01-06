@@ -76,7 +76,10 @@ const App = () => {
   return (
     <div className="h-screen flex flex-row dark:bg-slate-950">
       <Sidebar recentArticles={recentArticles} />
-      <form onSubmit={handleSubmit} className="flex flex-col flex-grow w-3/4">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col flex-grow w-3/4 mb-0 overflow-y-auto"
+      >
         <h1 className="text-center mt-4 mb-4 dark:text-gray-300">
           Article Generator
         </h1>
@@ -86,7 +89,7 @@ const App = () => {
           isDark={isDark}
           switchTheme={switchTheme}
         />
-        <div className="flex flex-row justify-center h-full">
+        <div className="flex flex-row justify-center flex-grow">
           {loading ? (
             <LoadingIndicator />
           ) : article ? (
