@@ -80,7 +80,7 @@ const App = () => {
         onSubmit={handleSubmit}
         className="flex flex-col flex-grow w-3/4 mb-0 overflow-y-auto"
       >
-        <h1 className="text-center mt-4 mb-4 dark:text-gray-300">
+        <h1 className="text-center mt-4 mb-4 dark:text-gray-300 text-3xl font-bold">
           Article Generator
         </h1>
         <TitleInput
