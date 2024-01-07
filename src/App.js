@@ -16,6 +16,7 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const [recentArticles, setRecentArticles] = useState([]);
+  const [showSidebar, setShowSidebar] = useState(false);
 
   // let's conditionally add the "dark" class to the root element
   useEffect(() => {
@@ -73,36 +74,81 @@ const App = () => {
     }
   };
 
+  const toggleSidebar = () => {
+    setShowSidebar(!showSidebar);
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setShowSidebar(true);
+      } else {
+        setShowSidebar(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
-    <div className="h-screen flex flex-row dark:bg-slate-950">
-      <Sidebar recentArticles={recentArticles} />
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col flex-grow w-3/4 mb-0 overflow-y-auto"
-      >
-        <h1 className="text-center mt-4 mb-4 dark:text-gray-300 text-3xl font-bold">
-          Article Generator
-        </h1>
-        <TitleInput
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          isDark={isDark}
-          switchTheme={switchTheme}
-        />
-        <div className="flex flex-row justify-center flex-grow">
-          {loading ? (
-            <LoadingIndicator />
-          ) : article ? (
-            <GeneratedArticle article={article} />
-          ) : (
-            <InstructionsView />
-          )}
-          <PromptArea
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-          />
+    <div className="h-screen flex flex-col dark:bg-slate-950">
+      <header className="flex justify-between items-center px-4 py-2 bg-gray-200 dark:bg-gray-900 text-gray-500 dark:text-gray-200">
+        <button
+          className="block lg:hidden text-gray-500 dark:text-gray-400"
+          onClick={toggleSidebar}
+        >
+          <svg
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+        <div className="text-center flex-grow">
+          <h1 className="text-3xl font-bold">Article Generator</h1>
         </div>
-      </form>
+        <div className="w-6"></div> {/* Placeholder for button */}
+      </header>
+
+      <div className="flex flex-grow overflow-y-auto">
+        {showSidebar && <Sidebar recentArticles={recentArticles} />}
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col flex-grow w-4/5 mb-0 overflow-y-auto"
+        >
+          <TitleInput
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            isDark={isDark}
+            switchTheme={switchTheme}
+          />
+          <div className="flex flex-row justify-center flex-grow">
+            {loading ? (
+              <LoadingIndicator />
+            ) : article ? (
+              <GeneratedArticle article={article} />
+            ) : (
+              <InstructionsView />
+            )}
+            <PromptArea
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+            />
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
