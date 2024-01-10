@@ -5,7 +5,7 @@ export const PromptArea = ({ value, onChange }) => {
     <div className="w-1/4">
       <label
         for="message"
-        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        class="block mb-2 text-sm font-medium text-[#283B42] dark:text-white"
       >
         Your message
       </label>

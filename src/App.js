@@ -97,7 +97,7 @@ const App = () => {
 
   return (
     <div className="h-screen flex flex-col dark:bg-slate-950">
-      <header className="flex justify-between items-center px-4 py-2 bg-gray-200 dark:bg-gray-900 text-gray-500 dark:text-gray-200">
+      <header className="flex justify-between items-center px-4 py-2 bg-[#D1DDDB]/[0.3] dark:bg-gray-900 text-gray-500 dark:text-gray-200">
         <button
           className="block lg:hidden text-gray-500 dark:text-gray-400"
           onClick={toggleSidebar}
@@ -117,7 +117,9 @@ const App = () => {
           </svg>
         </button>
         <div className="text-center flex-grow">
-          <h1 className="text-3xl font-bold">Article Generator</h1>
+          <h1 className="text-3xl font-bold text-[#283B42] dark:text-gray-400">
+            Article Generator
+          </h1>
         </div>
         <div className="w-6"></div> {/* Placeholder for button */}
       </header>
