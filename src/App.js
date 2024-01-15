@@ -17,7 +17,6 @@ const App = () => {
   const [isDark, setIsDark] = useState(false);
   const [recentArticles, setRecentArticles] = useState([]);
   const [showSidebar, setShowSidebar] = useState(false);
-
   // let's conditionally add the "dark" class to the root element
   useEffect(() => {
     var userTheme = localStorage.getItem("theme");
@@ -78,54 +77,48 @@ const App = () => {
     setShowSidebar(!showSidebar);
   };
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setShowSidebar(true);
-      } else {
-        setShowSidebar(false);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const closeSidebar = () => {
+    setShowSidebar(false);
+  };
 
   return (
     <div className="h-screen flex flex-col dark:bg-slate-950">
+      <Sidebar
+        recentArticles={recentArticles}
+        onClose={closeSidebar}
+        showSidebar={showSidebar}
+      />
       <header className="flex justify-between items-center px-4 py-2 bg-[#D1DDDB]/[0.3] dark:bg-gray-900 text-gray-500 dark:text-gray-200">
-        <button
-          className="block lg:hidden text-gray-500 dark:text-gray-400"
-          onClick={toggleSidebar}
-        >
-          <svg
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+        <div>
+          <button
+            onClick={toggleSidebar}
+            className="text-gray-500 dark:text-gray-400 focus:outline-none"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="h-6 w-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
+        </div>
         <div className="text-center flex-grow">
           <h1 className="text-3xl font-bold text-[#283B42] dark:text-gray-400">
             Article Generator
           </h1>
         </div>
-        <div className="w-6"></div> {/* Placeholder for button */}
+        <div className="w-6"></div>
       </header>
 
       <div className="flex flex-grow overflow-y-auto">
-        {showSidebar && <Sidebar recentArticles={recentArticles} />}
         <form
           onSubmit={handleSubmit}
           className="flex flex-col flex-grow w-4/5 mb-0 overflow-y-auto"
