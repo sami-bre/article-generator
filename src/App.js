@@ -12,12 +12,13 @@ import { ErrorComponent } from "./ErrorComponent";
 const App = () => {
   const [title, setTitle] = useState("");
   const [prompt, setPrompt] = useState("");
-  const [article, setArticle] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isDark, setIsDark] = useState(false);
   const [recentArticles, setRecentArticles] = useState([]);
   const [showSidebar, setShowSidebar] = useState(false);
+  const [currentArticleIndex, setCurrentArticleIndex] = useState(null);
+
   // let's conditionally add the "dark" class to the root element
   useEffect(() => {
     var userTheme = localStorage.getItem("theme");
@@ -69,22 +70,23 @@ const App = () => {
         throw new Error("Failed to fetch data from the API.");
       }
       const generatedSummary = (await response.json())["data"];
-      setArticle(generatedSummary);
-      setRecentArticles((prevArticles) => [
-        { title: title, summary: generatedSummary },
-        ...prevArticles,
-      ]);
+      setRecentArticles((prevArticles) => {
+        const newArticles = [
+          { title: title, summary: generatedSummary },
+          ...prevArticles,
+          
+        ];
+        return newArticles;
+      });
     } catch (error) {
       setError(error);
       console.error(error);
-      alert("An error occurred while fetching data from the API.");
     } finally {
       setLoading(false);
     }
   };
 
   const switchTheme = () => {
-    console.log({ isDark });
     if (isDark) {
       setLightMode();
     } else {
@@ -100,12 +102,24 @@ const App = () => {
     setShowSidebar(false);
   };
 
+  useEffect(() => {
+    if (recentArticles.length > 0) {
+      setCurrentArticleIndex(0);
+    } else {
+      setCurrentArticleIndex(null);
+    }
+  }, [recentArticles.length]);
+
   return (
     <div className="h-screen flex flex-col dark:bg-slate-950">
       <Sidebar
         recentArticles={recentArticles}
         onClose={closeSidebar}
         showSidebar={showSidebar}
+        onItemClicked={(selectedArticleIndex) => {
+          setCurrentArticleIndex(selectedArticleIndex);
+          closeSidebar();
+        }}
       />
       <header className="flex justify-between items-center px-4 py-2 bg-[#D1DDDB]/[0.3] dark:bg-gray-900 text-gray-500 dark:text-gray-200">
         <div>
@@ -153,8 +167,11 @@ const App = () => {
               <LoadingIndicator />
             ) : error ? (
               <ErrorComponent errorMessage={"Opps. Something went wrong!"} />
-            ) : article ? (
-              <GeneratedArticle title={title} article={article} />
+            ) : currentArticleIndex != null ? (
+              <GeneratedArticle
+                title={recentArticles[currentArticleIndex]?.title}
+                article={recentArticles[currentArticleIndex]?.summary}
+              />
             ) : (
               <InstructionsView />
             )}

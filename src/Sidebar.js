@@ -1,7 +1,7 @@
 // Sidebar.js
 import React from "react";
 
-export const Sidebar = ({ recentArticles, onClose, showSidebar }) => {
+export const Sidebar = ({ recentArticles, onClose, showSidebar, onItemClicked }) => {
   const sidebarClass = showSidebar
     ? "fixed top-0 left-0 h-full w-1/4 bg-[#283B42]/[0.9] text-white p-4 transform translate-x-0 transition-transform duration-300 ease-in-out dark:bg-gray-900 overflow-y-auto"
     : "fixed top-0 left-0 h-full w-1/4 bg-[#283B42]/[0.9] text-white p-4 transform -translate-x-full transition-transform duration-300 ease-in-out dark:bg-gray-900";
@@ -40,6 +40,7 @@ export const Sidebar = ({ recentArticles, onClose, showSidebar }) => {
             <li
               key={index}
               className="mb-2 hover:bg-gray-500 p-2 rounded cursor-pointer"
+              onClick={() => onItemClicked(index)}
             >
               <span className="block truncate overflow-ellipsis">
                 {article.title}
