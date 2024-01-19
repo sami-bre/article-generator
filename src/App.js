@@ -7,13 +7,14 @@ import { GeneratedArticle } from "./GeneratedArticle";
 import { InstructionsView } from "./InstructionsView";
 import { LoadingIndicator } from "./LoadingIndicator";
 import { Sidebar } from "./Sidebar";
-import { article as dummyArticle } from "./dummy-data";
+import { ErrorComponent } from "./ErrorComponent";
 
 const App = () => {
   const [title, setTitle] = useState("");
   const [prompt, setPrompt] = useState("");
   const [article, setArticle] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [isDark, setIsDark] = useState(false);
   const [recentArticles, setRecentArticles] = useState([]);
   const [showSidebar, setShowSidebar] = useState(false);
@@ -52,6 +53,7 @@ const App = () => {
       return;
     }
     setLoading(true);
+    setError(null);
     try {
       const response = await fetch("https://llm-summary.onrender.com/summary", {
         method: "POST",
@@ -59,8 +61,8 @@ const App = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          "title": title,
-          "prompt": prompt,
+          title: title,
+          prompt: prompt,
         }),
       });
       if (!response.ok) {
@@ -73,6 +75,7 @@ const App = () => {
         ...prevArticles,
       ]);
     } catch (error) {
+      setError(error);
       console.error(error);
       alert("An error occurred while fetching data from the API.");
     } finally {
@@ -148,6 +151,8 @@ const App = () => {
           <div className="flex flex-row justify-center flex-grow">
             {loading ? (
               <LoadingIndicator />
+            ) : error ? (
+              <ErrorComponent errorMessage={"Opps. Something went wrong!"} />
             ) : article ? (
               <GeneratedArticle title={title} article={article} />
             ) : (
