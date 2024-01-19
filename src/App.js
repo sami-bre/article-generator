@@ -45,23 +45,39 @@ const App = () => {
     localStorage.setItem("theme", "dark");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (title.trim() === "") {
       alert("Please enter a title."); // TODO: use a modal instead
       return;
     }
-    // let's sleep for 3 seconds to simulate a long-running operation
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      const generatedSummary = dummyArticle;
+    try {
+      const response = await fetch("https://llm-summary.onrender.com/summary", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "title": title,
+          "prompt": prompt,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch data from the API.");
+      }
+      const generatedSummary = (await response.json())["data"];
       setArticle(generatedSummary);
       setRecentArticles((prevArticles) => [
         { title: title, summary: generatedSummary },
         ...prevArticles,
       ]);
-    }, 3000);
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred while fetching data from the API.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const switchTheme = () => {
@@ -133,7 +149,7 @@ const App = () => {
             {loading ? (
               <LoadingIndicator />
             ) : article ? (
-              <GeneratedArticle article={article} />
+              <GeneratedArticle title={title} article={article} />
             ) : (
               <InstructionsView />
             )}
