@@ -15,7 +15,10 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isDark, setIsDark] = useState(false);
-  const [recentArticles, setRecentArticles] = useState([]);
+  const [recentArticles, setRecentArticles] = useState(() => {
+    const savedRecentArticles = localStorage.getItem("recentArticles");
+    return savedRecentArticles ? JSON.parse(savedRecentArticles) : [];
+  });
   const [showSidebar, setShowSidebar] = useState(false);
   const [currentArticleIndex, setCurrentArticleIndex] = useState(null);
 
@@ -30,6 +33,12 @@ const App = () => {
       setDarkMode();
     } else {
       setLightMode();
+    }
+
+    // Load recentArticles from localStorage
+    const savedRecentArticles = localStorage.getItem("recentArticles");
+    if (savedRecentArticles) {
+      setRecentArticles(JSON.parse(savedRecentArticles));
     }
   }, []); // The empty array means this useEffect will run once on component mount.
 
@@ -74,7 +83,6 @@ const App = () => {
         const newArticles = [
           { title: title, summary: generatedSummary },
           ...prevArticles,
-          
         ];
         return newArticles;
       });
@@ -109,6 +117,11 @@ const App = () => {
       setCurrentArticleIndex(null);
     }
   }, [recentArticles.length]);
+
+  // Save recentArticles to localStorage each time it's updated
+  useEffect(() => {
+    localStorage.setItem("recentArticles", JSON.stringify(recentArticles));
+  }, [recentArticles]); // recentArticles as a dependency means this useEffect will run each time recentArticles is updated
 
   return (
     <div className="h-screen flex flex-col dark:bg-slate-950">
