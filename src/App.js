@@ -22,7 +22,6 @@ const App = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [currentArticleIndex, setCurrentArticleIndex] = useState(null);
 
-  // let's conditionally add the "dark" class to the root element
   useEffect(() => {
     var userTheme = localStorage.getItem("theme");
     const isSystemDark = window.matchMedia(
@@ -40,8 +39,7 @@ const App = () => {
     if (savedRecentArticles) {
       setRecentArticles(JSON.parse(savedRecentArticles));
     }
-  }, []); // The empty array means this useEffect will run once on component mount.
-
+  }, []);
   // setting light mode
   const setLightMode = () => {
     document.documentElement.classList.remove("dark");
@@ -59,7 +57,7 @@ const App = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (title.trim() === "") {
-      alert("Please enter a title."); // TODO: use a modal instead
+      alert("Please enter a title.");
       return;
     }
     setLoading(true);
@@ -118,10 +116,18 @@ const App = () => {
     }
   }, [recentArticles.length]);
 
-  // Save recentArticles to localStorage each time it's updated
   useEffect(() => {
     localStorage.setItem("recentArticles", JSON.stringify(recentArticles));
-  }, [recentArticles]); // recentArticles as a dependency means this useEffect will run each time recentArticles is updated
+  }, [recentArticles]);
+
+  useEffect(() => {
+    const savedRecentArticles = localStorage.getItem("recentArticles");
+    if (savedRecentArticles) {
+      setRecentArticles(JSON.parse(savedRecentArticles));
+    }
+
+    setCurrentArticleIndex(null);
+  }, []);
 
   return (
     <div className="h-screen flex flex-col dark:bg-slate-950">
