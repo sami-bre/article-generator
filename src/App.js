@@ -63,6 +63,7 @@ const App = () => {
     setLoading(true);
     setError(null);
     try {
+      //update link
       const response = await fetch("http://34.213.109.138:8000/summary", {
         method: "POST",
         headers: {
