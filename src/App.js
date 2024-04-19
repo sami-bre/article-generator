@@ -63,7 +63,7 @@ const App = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("https://llm-summary.onrender.com/summary", {
+      const response = await fetch("http://34.213.109.138:8000/summary", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
